@@ -105,12 +105,10 @@ function finish(){
 }
 
 function turn_back(id){
-	console.log(id+':back');
 	$('#i'+id).animate({'background-position-y':'-'+grid_width+'px'});
 	front_grid.pop();
 }
 function turn_front(id){
-	console.log(id+':front');
 	$('#i'+id).animate({'background-position-y':'0px'});
 	front_grid.push(id);
 }
