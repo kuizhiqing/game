@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<head>
+<link rel="stylesheet" type="text/css" href="" />
+<script type="text/javascript" src="javascripts/jquery-1.9.1.min.js"></script>
+<style type="text/css">
+.page{
+width: 900px;
+margin: 0 auto;
+}
+.header{
+background-color: blueviolet;
+height: 80px;
+line-height: 80px;
+font-family: "微软雅黑";
+text-align: center;
+font-size: 37px;
+}
+.rule{
+background-color: darkgray;
+height: 40px;
+cursor: pointer;
+}
+.rule_text{
+padding: 14px 20px;
+}
+.game_center{
+height: 600px;
+background-color: azure;
+z-index: 100;
+position: relative;
+}
+.game_center table{
+margin: 0 auto;
+}
+
+.grid_table{
+padding-top: 50px;
+margin: 0 auto;
+}
+table tr td{
+width:96px;
+height:96px;
+cursor: pointer;
+}
+.status_bar{
+margin: 40px;
+height:50px;
+background:yellow;
+cursor: pointer;
+line-height: 50px;
+font-family: "微软雅黑";
+text-align: center;
+font-size: 19px;
+}
+</style>
+<script type="text/javascript">
+real = "0123456789";
+answer = "012345678";
+function getTip(real,answer){
+	var per = 0;
+	var con = 0;
+	var len = real.length;
+	if(answer.length!=len) return [-1,-1]; 
+	for(i=0;i<len;i++){
+		for(j=0;j<len;j++){
+			if(real[i]==answer[j]){
+				if(i==j) per++;
+				if(i!=j) con++;
+				break;
+			}
+		}
+	}
+	return [per,con];
+}
+</script>
+<title></title>
+</head>
+<body>
+
+<div class="page">
+<div class="header">
+记忆方格 
+</div>
+<div class="rule">
+<div class="rule_text">
+游戏规则<br/><br/>
+方格中内容两两匹配，每次点击方格查看内容，若再次查看的方格内容与当前方格内容一直，则该组方格匹配成功！当所有方格匹配成功时游戏结束！
+</div>
+</div>
+<div class="game_center">
+
+<div class="grid_table">
+<table border="1">
+<tr>
+  <td id="i0" rid="0"></td>
+  <td id="i1" rid="1"></td>
+  <td id="i2" rid="2"></td>
+  <td id="i3" rid="3"></td>
+</tr>
+<tr>
+  <td id="i4" rid="4"></td>
+  <td id="i5" rid="5"></td>
+  <td id="i6" rid="6"></td>
+  <td id="i7" rid="7"></td>
+</tr>
+<tr>
+  <td id="i8" rid="8"></td>
+  <td id="i9" rid="9"></td>
+  <td id="i10" rid="10"></td>
+  <td id="i11" rid="11"></td>
+</tr>
+<tr>
+  <td id="i12" rid="12"></td>
+  <td id="i13" rid="13"></td>
+  <td id="i14" rid="14"></td>
+  <td id="i15" rid="15"></td>
+</tr>
+</table>
+</div>
+
+<div class="status_bar">
+开始
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+T = 16;
+var ruler = false;
+$('.rule').click(function(){
+	if(ruler){
+		$('.rule').animate({height:'40px'});
+		ruler = false;
+	}else{
+		$('.rule').animate({height:'200px'});
+		ruler = true;
+	}
+});
+//double match
+grids = ['0','0','1','1','2','2','3','3','4','4','5','5','6','6','7','7'];
+front_grid = [];
+fini_grid = [];
+clicks = 0;
+status_msg = "go";// "go"  "refresh" "giveup" 
+grid_width = 100;
+
+function init(){
+    grids = shuffle(grids);
+	for(i=0;i<T;i++){
+		$('#i'+i).css('background','url(grids.png) '+ parseInt(grids[i])*grid_width + 'px  -100px');
+	}
+	front_grid = [];
+	fini_grid = [];
+	clicks = 0;
+}
+function over(){
+	for(i=0;i<T;i++){
+		turn_front(i);
+	}
+}
+function finish(){
+	$('.status_bar').html('恭喜: '+clicks+' 击');
+	$('.status_bar').css('background','green');
+	status_msg = "go";
+}
+
+function turn_back(id){
+	console.log(id+':back');
+	$('#i'+id).animate({'background-position-y':'-'+grid_width+'px'});
+	front_grid.pop();
+}
+function turn_front(id){
+	console.log(id+':front');
+	$('#i'+id).animate({'background-position-y':'0px'});
+	front_grid.push(id);
+}
+
+bloque = false;
+$('td').click(function(){
+    id = $(this).attr('rid');
+	if(status_msg=="go") return;
+	if(fini_grid.indexOf(id)>=0) return;
+	if(bloque) return;
+	bloque = true;
+	clicks++;
+	if(front_grid.length==0){
+		turn_front(id);
+	}else if(front_grid[0]==id){ //click self
+		turn_back(id);
+	}else if(grids[front_grid[0]]==grids[id]){ //match
+		turn_front(id);
+		fini_grid.push(id);
+		fini_grid.push(front_grid[0]);	
+		front_grid.pop();		
+		front_grid.pop();
+	}else{ //not match
+		turn_front(id);
+		turn_back(front_grid[0]);
+		turn_back(id);
+	}
+	if(fini_grid.length==T)	finish();
+	bloque = false;
+});
+
+$('.status_bar').click(function(){
+	if(status_msg=="go"){
+		init();
+		$('.status_bar').css('background','blue');
+		$('.status_bar').html('放弃');
+		status_msg = "giveup";
+	}else if(status_msg=="giveup"){
+		over();
+		$('.status_bar').css('background','red');
+		$('.status_bar').html('开始');
+		status_msg = "go";
+	}
+});
+
+function shuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
+</script>
+</body>
+</html>

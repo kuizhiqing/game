@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheets/guess_number.css" />
+<script type="text/javascript" src="javascripts/jquery-1.9.1.min.js"></script>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+</script>
+<title></title>
+</head>
+<body>
+
+<div class="page">
+<div class="header">
+猜数字 
+</div>
+<div class="rule">
+<div class="rule_text">
+游戏规则<br/><br/>
+目的是猜出随机产生的一个四位数字（其中不含重复数字），每次尝试会得到一个类似2A1B的结果，表示所猜数字和真实数字有两个位置数字都正确，一个数字正确而位置不正确。
+</div>
+</div>
+<div class="game_center">
+
+<div class="guess_form">
+<input id="guess_input" maxlength='4'></input>
+<div class="guess_button" id="guess_ok">OK</div>
+<div class="guess_button" id="guess_giveup">放弃</div>
+<div class="guess_button" id="guess_refresh">重来</div>
+</div>
+
+<div class="tips"></div>
+<div class="status_bar">来吧！青年</div>
+
+</div>
+</div>
+
+<script type="text/javascript">
+rr = ['0','1','2','3','4','5','6','7','8','9'];
+real = '';
+clicks = 0;
+fini = false;
+function init(){
+	real = '';
+	$('div.tips').html('');
+	$('.status_bar').html('来吧！青年');
+	$('.status_bar').css('background','aqua');
+	rr = shuffle(rr);
+	for(i=0;i<4;i++){
+		real+=rr[i];
+	}
+	$('#guess_input').val('');	
+	$('#guess_input').focus();
+	clicks = 0;
+}
+
+function getTip(answer){
+	var per = 0;
+	var con = 0;
+	var len = real.length;
+	if(answer.length!=len) return [-1,-1]; 
+	for(i=0;i<len;i++){
+		for(j=0;j<len;j++){
+			if(real[i]==answer[j]){
+				if(i==j) per++;
+				if(i!=j) con++;
+				break;
+			}
+		}
+	}
+	return [per,con];
+}
+
+function shuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
+
+var ruler = false;
+$('.rule').click(function(){
+	if(ruler){
+		$('.rule').animate({height:'40px'});
+		ruler = false;
+	}else{
+		$('.rule').animate({height:'200px'});
+		ruler = true;
+	}
+});
+
+$('#guess_ok').click(function(){
+	if(fini){
+		$('.status_bar').html('重新开始吧，青年');
+		$('.status_bar').css('background','gray');
+		return;
+	}
+	answer = $('#guess_input').val();
+	if(answer.length!=4){
+		$('.status_bar').html('四位数字哦，青年');
+		$('.status_bar').css('background','red');
+		$('#guess_input').val('');	
+		$('#guess_input').focus();
+		return;
+	}
+	tips = getTip(answer);
+	if(tips[0]==4){
+		$('.status_bar').html('不错哦，青年  尝试 '+clicks+' 次');
+		$('.status_bar').css('background','green');
+		fini = true;
+	}else{
+		$('.status_bar').html('继续吧，青年');
+		$('.status_bar').css('background','aqua');
+	}
+	$('div.tips').append('<div class="tip_item"><div class="answer_text">'+answer+'</div><div class="answer_text">'+tips[0]+'A'+tips[1]+'B</div></div>');
+	clicks++;
+	$('#guess_input').val('');	
+	$('#guess_input').focus();	
+});
+
+$('#guess_giveup').click(function(){
+	if(fini) return;
+	$('.status_bar').html('答案是：'+real+'  尝试 '+clicks+'次  努力吧！青年');
+	$('.status_bar').css('background','yellow');
+	fini = true;
+});
+
+$('#guess_refresh').click(function(){
+	init();
+});
+
+$(document).ready(function(){
+	init();
+});
+</script>
+</body>
+</html>
