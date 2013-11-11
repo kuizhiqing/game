@@ -1,38 +1,10 @@
-.page{
-width: 900px;
-margin: 0 auto;
-}
-.header{
-background-color: blueviolet;
-height: 80px;
-line-height: 80px;
-font-family: "微软雅黑";
-text-align: center;
-font-size: 37px;
-}
-.rule{
-background-color: darkgray;
-height: 40px;
-cursor: pointer;
-}
-.rule_text{
-padding: 14px 20px;
-}
-.game_center{
-height: 600px;
-background-color: azure;
-z-index: 100;
-position: relative;
-}
-.game_center table{
-margin: 0 auto;
-}
 .status_bar{
 height:50px;
 line-height: 50px;
 font-family: "微软雅黑";
 text-align: center;
 font-size: 19px;
+color:#ffffff;
 }
 input#guess_input{
 float:left;

@@ -2,6 +2,7 @@
 <html>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <head>
+<link rel="stylesheet" type="text/css" href="stylesheets/game.css" />
 <link rel="stylesheet" type="text/css" href="stylesheets/guess_number.css" />
 <script type="text/javascript" src="javascripts/jquery-1.9.1.min.js"></script>
 <style type="text/css">
@@ -19,6 +20,16 @@
 <body>
 
 <div class="page">
+<div class="navigator">
+<div class="nav" onclick="location.href='/'">
+游戏列表
+</div>
+<div class="nav_center">
+</div>
+<div class="nav" onclick="location.href='/feedback.html'">
+我要反馈
+</div>
+</div>
 <div class="header">
 猜数字 
 </div>
@@ -41,6 +52,10 @@
 <div class="status_bar">来吧！青年</div>
 
 </div>
+<div class="footer">
+<div class="link"><a href="https://github.com/kuizhiqing" target="_blank">kuizhiqing's github</a></div>
+<div class="mail"><a href="mailto:kuizhiqing@msn.com">kuizhiqing@msn.com</a></div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -52,7 +67,7 @@ function init(){
 	real = '';
 	$('div.tips').html('');
 	$('.status_bar').html('来吧！青年');
-	$('.status_bar').css('background','aqua');
+	$('.status_bar').css('background','#abadb8');
 	rr = shuffle(rr);
 	for(i=0;i<4;i++){
 		real+=rr[i];
@@ -60,6 +75,7 @@ function init(){
 	$('#guess_input').val('');	
 	$('#guess_input').focus();
 	clicks = 0;
+	fini = false;
 }
 
 function getTip(answer){
@@ -98,7 +114,7 @@ $('.rule').click(function(){
 $('#guess_ok').click(function(){
 	if(fini){
 		$('.status_bar').html('重新开始吧，青年');
-		$('.status_bar').css('background','gray');
+		$('.status_bar').css('background','#5473f8');
 		return;
 	}
 	answer = $('#guess_input').val();
@@ -112,11 +128,15 @@ $('#guess_ok').click(function(){
 	tips = getTip(answer);
 	if(tips[0]==4){
 		$('.status_bar').html('不错哦，青年  尝试 '+clicks+' 次');
-		$('.status_bar').css('background','green');
+		$('.status_bar').css('background','#8c5ff3');
 		fini = true;
+	}else if(clicks==16){
+		$('.status_bar').html('算了吧，青年');
+		$('.status_bar').css('background','red');
+		return;
 	}else{
 		$('.status_bar').html('继续吧，青年');
-		$('.status_bar').css('background','aqua');
+		$('.status_bar').css('background','#abadb8');
 	}
 	$('div.tips').append('<div class="tip_item"><div class="answer_text">'+answer+'</div><div class="answer_text">'+tips[0]+'A'+tips[1]+'B</div></div>');
 	clicks++;
@@ -127,13 +147,18 @@ $('#guess_ok').click(function(){
 $('#guess_giveup').click(function(){
 	if(fini) return;
 	$('.status_bar').html('答案是：'+real+'  尝试 '+clicks+'次  努力吧！青年');
-	$('.status_bar').css('background','yellow');
+	$('.status_bar').css('background','#5473f8');
 	fini = true;
 });
 
 $('#guess_refresh').click(function(){
 	init();
 });
+
+$(document).keypress(function(e) { 
+if (e.which == 13) 
+	$('#guess_ok').click();
+}) 
 
 $(document).ready(function(){
 	init();

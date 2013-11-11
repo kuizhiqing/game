@@ -1,0 +1,74 @@
+.navigator{
+background:#7790fd;
+height:30px;
+}
+div.nav{
+width:150px;
+float:left;
+line-height: 30px;
+text-align: center;
+}
+div.nav_center{
+width:600px;
+height:30px;
+float:left;
+line-height: 30px;
+text-align: center;
+}
+div.nav:hover{
+background:#5473f8;
+cursor:pointer;
+}
+.footer{
+height:50px;
+background:#7790fd;
+width : 900px;
+text-indent: 30px;
+line-height: 50px;
+font-family: Helvetica;
+}
+.link{
+position: relative;
+float: left;
+}
+.link a,
+.mail a{
+text-decoration: none;
+color: white;
+}
+.link a:hover,
+.mail a:hover{
+text-decoration: none;
+color: black;
+}
+.mail{
+text-align: right;
+padding-right: 30px;
+}
+.page{
+width: 900px;
+margin: 0 auto;
+}
+.header{
+background-color: #5473f8;
+height: 80px;
+line-height: 80px;
+font-family: "微软雅黑";
+text-align: center;
+font-size: 37px;
+color: #ffffff;
+}
+.rule{
+background-color: #7790fd;
+height: 40px;
+cursor: pointer;
+}
+.rule_text{
+padding: 14px 20px;
+}
+.game_center{
+height: 600px;
+background-color: #a9b6ee;
+z-index: 100;
+position: relative;
+}
