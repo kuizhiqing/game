@@ -1,0 +1,51 @@
+.status_bar{
+height:50px;
+line-height: 50px;
+font-family: "微软雅黑";
+text-align: center;
+font-size: 19px;
+color:#ffffff;
+}
+input#guess_input{
+float:left;
+height: 30px;
+line-height: 30px;
+font-size: 30px;
+letter-spacing: 25px;
+text-indent: 16px;
+width: 138px;
+}
+div.guess_button{
+float:left;
+height: 36px;
+width: 60px;
+background: cornflowerblue;
+border: none;
+cursor: pointer;
+text-align: center;
+margin-left: 40px;
+line-height:36px;
+}
+.guess_form{
+padding-top: 16px;
+width:600px;
+margin:0 auto;
+height:50px;
+}
+.answer_text{
+color:blue;
+float: left;
+width: 260px;
+line-height: 30px;
+font-size: 30px;
+letter-spacing: 25px;
+height: 30px;
+font-family: cursive;
+}
+.tip_item{
+width: 600px;
+margin: 0 auto;
+}
+.tips{
+height: 486px;
+}

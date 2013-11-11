@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheets/game.css" />
+<link rel="stylesheet" type="text/css" href="stylesheets/partition_guess_number.css" />
+<script type="text/javascript" src="javascripts/jquery-1.9.1.min.js"></script>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-45372893-1', 'game.kuizhiqing.com');
+  ga('send', 'pageview');
+</script>
+<title>Partition Guess Number</title>
+</head>
+<body>
+
+<div class="page">
+<div class="navigator">
+<div class="nav" onclick="location.href='/'">
+游戏列表
+</div>
+<div class="nav_center">
+</div>
+<div class="nav" onclick="location.href='/feedback.html'">
+我要反馈
+</div>
+</div>
+<div class="header">
+猜数字 
+</div>
+<div class="rule">
+<div class="rule_text">
+游戏规则<br/><br/>
+目的是猜出随机产生的一个1到999之间的数字，每次尝试会得到一个猜测值与目标值大小关系的结果提示。
+</div>
+</div>
+<div class="game_center">
+
+<div class="guess_form">
+<input id="guess_input" maxlength='3'></input>
+<div class="guess_button" id="guess_ok">OK</div>
+<div class="guess_button" id="guess_giveup">放弃</div>
+<div class="guess_button" id="guess_refresh">重来</div>
+</div>
+
+<div class="tips"></div>
+<div class="status_bar">来吧！青年</div>
+
+</div>
+<div class="footer">
+<div class="link"><a href="https://github.com/kuizhiqing" target="_blank">kuizhiqing's github</a></div>
+<div class="mail"><a href="mailto:kuizhiqing@msn.com">kuizhiqing@msn.com</a></div>
+</div>
+</div>
+
+<script type="text/javascript">
+real = 0;
+clicks = 0;
+fini = false;
+function init(){
+	real = '';
+	$('div.tips').html('');
+	$('.status_bar').html('来吧！青年');
+	$('.status_bar').css('background','#abadb8');
+	real = Math.round(Math.random()*1000)-1;
+	$('#guess_input').val('');	
+	$('#guess_input').focus();
+	clicks = 0;
+	fini = false;
+}
+
+function shuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
+
+var ruler = false;
+$('.rule').click(function(){
+	if(ruler){
+		$('.rule').animate({height:'40px'});
+		ruler = false;
+	}else{
+		$('.rule').animate({height:'200px'});
+		ruler = true;
+	}
+});
+
+$('#guess_ok').click(function(){
+	if(fini){
+		$('.status_bar').html('重新开始吧，青年');
+		$('.status_bar').css('background','#5473f8');
+		return;
+	}
+	answer = $('#guess_input').val();
+	if(parseInt(answer)==real){
+		$('.status_bar').html('不错哦，青年  尝试 '+clicks+' 次');
+		$('.status_bar').css('background','#8c5ff3');
+		fini = true;
+		return;
+	}else if(clicks==16){
+		$('.status_bar').html('算了吧，青年');
+		$('.status_bar').css('background','red');
+		return;
+	}else{
+		$('.status_bar').html('继续吧，青年');
+		$('.status_bar').css('background','#abadb8');
+	}
+	if(parseInt(answer)>real){
+		$('div.tips').append('<div class="tip_item"><div class="answer_text">'+answer+'</div><div class="answer_text">太大了！</div></div>');
+	}else{
+		$('div.tips').append('<div class="tip_item"><div class="answer_text">'+answer+'</div><div class="answer_text">太小了！</div></div>');
+	}
+	clicks++;
+	$('#guess_input').val('');	
+	$('#guess_input').focus();	
+});
+
+$('#guess_giveup').click(function(){
+	if(fini) return;
+	$('.status_bar').html('答案是：'+real+'  尝试 '+clicks+'次  努力吧！青年');
+	$('.status_bar').css('background','#5473f8');
+	fini = true;
+});
+
+$('#guess_refresh').click(function(){
+	init();
+});
+
+$(document).keypress(function(e) { 
+if (e.which == 13) 
+	$('#guess_ok').click();
+}) 
+
+$(document).ready(function(){
+	init();
+});
+</script>
+</body>
+</html>
