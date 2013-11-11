@@ -6,7 +6,7 @@
 <script type="text/javascript" src="javascripts/jquery-1.9.1.min.js"></script>
 <style type="text/css">
 .navigator{
-background:green;
+background:#7790fd;
 height:30px;
 }
 div.nav{
@@ -23,8 +23,34 @@ line-height: 30px;
 text-align: center;
 }
 div.nav:hover{
-background:gray;
+background:#5473f8;
 cursor:pointer;
+}
+.footer{
+height:50px;
+background:#7790fd;
+width : 900px;
+text-indent: 30px;
+line-height: 50px;
+font-family: Helvetica;
+}
+.link{
+position: relative;
+float: left;
+}
+.link a,
+.mail a{
+text-decoration: none;
+color: white;
+}
+.link a:hover,
+.mail a:hover{
+text-decoration: none;
+color: black;
+}
+.mail{
+text-align: right;
+padding-right: 30px;
 }
 </style>
 <script type="text/javascript">
@@ -40,12 +66,12 @@ cursor:pointer;
 <body>
 <div class="page">
 <div class="navigator">
-<div class="nav">
+<div class="nav" onclick="location.href='/'">
 游戏列表
 </div>
 <div class="nav_center">
 </div>
-<div class="nav">
+<div class="nav" onclick="location.href='/feedback.html'">
 我要反馈
 </div>
 </div>
@@ -92,9 +118,10 @@ cursor:pointer;
 <div class="status_bar">
 开始
 </div>
-<div class="footer">
-
 </div>
+<div class="footer">
+<div class="link"><a href="https://github.com/kuizhiqing" target="_blank">kuizhiqing's github</a></div>
+<div class="mail"><a href="mailto:kuizhiqing@msn.com">kuizhiqing@msn.com</a></div>
 </div>
 </div>
 
@@ -134,7 +161,7 @@ function over(){
 }
 function finish(){
 	$('.status_bar').html('恭喜: '+clicks+' 击');
-	$('.status_bar').css('background','green');
+	$('.status_bar').css('background','#8c5ff3');
 	status_msg = "go";
 }
 
@@ -177,7 +204,7 @@ $('td').click(function(){
 $('.status_bar').click(function(){
 	if(status_msg=="go"){
 		init();
-		$('.status_bar').css('background','blue');
+		$('.status_bar').css('background','#5473f8');
 		$('.status_bar').html('放弃');
 		status_msg = "giveup";
 	}else if(status_msg=="giveup"){
