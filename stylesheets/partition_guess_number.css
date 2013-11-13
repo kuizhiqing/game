@@ -19,7 +19,8 @@ div.guess_button{
 float:left;
 height: 36px;
 width: 60px;
-background: cornflowerblue;
+background: #7790fd;
+color:#fff;
 border: none;
 cursor: pointer;
 text-align: center;
@@ -33,7 +34,7 @@ margin:0 auto;
 height:50px;
 }
 .answer_text{
-color:blue;
+color:#5473f8;
 float: left;
 width: 260px;
 line-height: 30px;
