@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="telephone=no" name="format-detection" />
+<meta  name='keywords' content=''/>
+<meta name="viewport" content="width=320,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=yes" />
+<title>全民寻找单色凌</title>
+<style type="text/css">
+body{
+width:320px; 
+margin: 0 auto;
+padding: 0;
+overflow:hidden;
+}
+.page1{
+width:100%;
+height:416px;
+background: url(http://image.kuwo.cn/concert/danseling/game_bg_1_1.jpg);
+background-size: 100%;
+}
+.page2{
+width:100%;
+height:416px;
+background: url(http://image.kuwo.cn/concert/danseling/game_bg_2.jpg);
+background-size: 100%;
+}
+.page3{
+width:100%;
+height:416px;
+background: url(http://image.kuwo.cn/concert/danseling/game_bg_3_1.jpg);
+background-size: 100%;
+}
+#homelink1{
+display:block;
+width:100%;
+height:74px;
+}
+#homelink2{
+display:block;
+width:100%;
+height:74px;
+margin-top: 113px;
+}
+.grid_point{
+width:283px;
+height:283px;
+position: relative;
+margin: 0 auto;
+}
+.grid{
+background: url(http://image.kuwo.cn/concert/danseling/game_cc1.jpg);
+background-size: 100%;
+float: left;
+}
+.grid_t{
+background: url(http://image.kuwo.cn/concert/danseling/game_wb1.jpg);
+background-size: 100%;
+float: left;
+}
+#info{
+float: left;
+height: 112px;
+width: 100%;
+}
+#score{
+float: left;
+font-size: 24px;
+color: #de6e00;
+text-align: center;
+width: 100px;
+height: 100px;
+line-height: 92px;
+padding-left: 34px;
+}
+#time{
+float: left;
+font-size: 24px;
+color: #de6e00;
+text-align: center;
+width: 52px;
+height: 100px;
+line-height: 92px;
+}
+#start{
+display: block;
+height: 52px;
+width: 100%;
+position: relative;
+top: 310px;
+}
+#restart{
+display: block;
+height: 52px;
+width: 134px;
+float: left;
+}
+#outlink{
+display: block;
+height: 52px;
+width: 170px;
+float: left;
+}
+#links3{
+display: block;
+height: 54px;
+width: 100%;
+position: relative;
+top: 167px;
+}
+#level{
+position: relative;
+padding-top: 75px;
+color: white;
+font-weight: bold;
+font-size: 20px;
+height: 100px;
+}
+#level div{
+height: 30px;
+line-height: 30px;
+float: right;
+width: 170px;
+text-align: center;
+}
+
+.grid_1{width:140px;height:140px;}
+.grid_2{width:33%;height:33%;}
+.grid_3{width:25%;height:25%;}
+.grid_4{width:20%;height:20%;}
+.grid_5{width:16.4%;height:16.4%;}
+.grid_6{width:14%;height:14%;}
+.grid_7{width:12.3%;height:12.3%;}
+.grid_8{width:11%;height:11%;}
+</style>
+<script type="text/javascript" src="http://js.kuwo.cn/concert/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+<div class="page1">
+	<!-- a id="homelink1" href="http://zc.kuwo.cn/zc/m/selingdan.html?from=game&_"></a-->
+	<a id="start" herf="#@" onclick="start();"></a>
+</div>
+<div class="page2" style="display:none;">
+	<div id="info">
+		<div id="score">0</div>
+		<div id="time">30</div>
+		<div id="pause"></div>
+	</div>
+	<div id="grid_point" class="grid_point">
+	</div>
+</div>
+<div class="page3" style="display:none;">
+	<div id="level">
+		<div>L10</div>
+	</div>
+	<div id="links3">
+		<a id="restart" href="#@" onclick="start();"></a>
+		<a id="outlink" href="http://zc.kuwo.cn/zc/m/selingdan.html?from=game&_" target="_blank"></a>
+	</div>
+	<!-- a id="homelink2" href="http://zc.kuwo.cn/zc/m/selingdan.html?from=game&_"></a-->
+</div>
+<script type="text/javascript">
+var ways = [1,2,3,4,4,5,5,6,6,6,7,7,7,7,7,7,8];
+var current = 0;
+var level;
+var pinterval;
+var downcount;
+function start(){
+	current = 0;
+	level = ways[current++];
+	downcount = 30;
+	$('.page2').show().siblings().hide();
+	pinterval = window.setInterval('refresh()',1000);
+	gengrid((level+1)*(level+1));
+}
+function gengrid(nb){
+	var html ='';
+	var tt = parseInt(Math.random()*nb+1);
+	for(var i=1;i<=nb;i++){
+		if(i==tt){
+			html += '<div class="grid_t grid_'+level+'" onclick="next(true);"></div>';
+		}else{
+			html += '<div class="grid grid_'+level+'" onclick="next(false);"></div>';
+		}
+	}
+	$('#grid_point').html(html);
+}
+function next(ok){
+	if(ok){
+		$('#score').html(current);
+		if(current>=ways.length){
+			current++;
+			level = ways[ways.length-1];
+		}else{
+			level = ways[current++];
+		}
+		gengrid((level+1)*(level+1));
+	}
+}
+function refresh(){
+	downcount--;
+	if(downcount<=0){
+		window.clearInterval(pinterval);
+		$('#time').html(0);
+		$('#level div').html('Lv'+(current-1));
+		$('.page3').show().siblings().hide();
+	}else{
+		$('#time').html(downcount);
+	}
+}
+
+var dataForWeixin = {
+    appId: "",//微信公众号ID
+    MsgImg: "http://image.kuwo.cn/concert/danseling/game_cc1.png", //分享给朋友和收藏时显示的缩略图       
+    TLImg: "http://image.kuwo.cn/concert/danseling/game_cc1.png", //分享到朋友圈时显示的缩略图
+    url: location.href,//分享地址
+    title: "全民寻找单色凌", //分享至微博、朋友圈、朋友都会用到
+    desc: "全民寻找单色凌", //分享给 朋友时会用到
+    fakeid: "",
+    callback: function () {
+        //分享成功回调方法，其中分享给朋友、分享到微博、收藏都是成功后回调，而分享到朋友圈是点分享按钮就会调用
+    }
+};            
+(function(){            
+   var onBridgeReady=function(){           
+   //分享给朋友 
+   WeixinJSBridge.on('menu:share:appmessage', function(argv){            
+      WeixinJSBridge.invoke('sendAppMessage',{            
+         "appid":dataForWeixin.appId,            
+         "img_url":dataForWeixin.MsgImg,            
+         "img_width":"120",            
+         "img_height":"120",            
+         "link":dataForWeixin.url,            
+         "desc":dataForWeixin.desc,            
+         "title":dataForWeixin.title            
+      }, function(res){(dataForWeixin.callback)();});            
+   });    
+   //分享至朋友圈        
+   WeixinJSBridge.on('menu:share:timeline', function(argv){           
+      //(dataForWeixin.callback)(); 
+      var text = "#寻找单色凌#聪明如我赢得了单色凌"+current+"级粉丝，来挑战我吧！";
+      WeixinJSBridge.invoke('shareTimeline',{            
+         "img_url":dataForWeixin.TLImg,            
+         "img_width":"120",            
+         "img_height":"120",            
+         "link":dataForWeixin.url,            
+         "desc":dataForWeixin.desc,            
+         "title":text            
+      }, function(res){});            
+   });       
+   //分享至微薄     
+   WeixinJSBridge.on('menu:share:weibo', function(argv){            
+      WeixinJSBridge.invoke('shareWeibo',{            
+         "content":dataForWeixin.title,            
+         "url":dataForWeixin.url            
+      }, function(res){(dataForWeixin.callback)();});            
+   });      
+   //分享到facebook      
+   WeixinJSBridge.on('menu:share:facebook', function(argv){            
+      //(dataForWeixin.callback)();            
+      WeixinJSBridge.invoke('shareFB',{            
+         "img_url":dataForWeixin.TLImg,            
+         "img_width":"120",            
+         "img_height":"120",            
+         "link":dataForWeixin.url,            
+         "desc":dataForWeixin.desc,            
+         "title":dataForWeixin.title            
+      }, function(res){});            
+   });            
+};            
+    if(document.addEventListener){            
+       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);            
+    }else if(document.attachEvent){            
+       document.attachEvent('WeixinJSBridgeReady'   , onBridgeReady);            
+       document.attachEvent('onWeixinJSBridgeReady' , onBridgeReady);            
+    }
+})();
+//new Image().src = 'http://document.kuwo.cn:8180/zc/loger?lable=GAME_DAN&frm=danseling&_'+Math.random();
+</script>
+</body>
+</html>
